@@ -3,7 +3,7 @@
 
 El sitio oficial para descargar las versiones de Arduino IDE es: https://www.arduino.cc/en/software/
 
-Hay dos formas de instalar y utilizar Arduino IDE en Linux, la primera es utilizando la **Linux AppImage** y la segunda forma es descargando e instalando el archivo comprimido **Linux ZIP file**, en esta guía verán como realizarlo utilizando las dos formas. 
+Hay dos formas de instalar y utilizar Arduino IDE en Linux, la primera es utilizando la **Linux AppImage** y la segunda forma es descargando el archivo comprimido **Linux ZIP file**, en esta guía verán como realizarlo utilizando las dos formas. 
 
 ![alt text](./img/1_releases.png)
 
