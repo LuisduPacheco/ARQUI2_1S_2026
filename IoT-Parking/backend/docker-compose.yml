@@ -1,0 +1,54 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    networks:
+      - parking-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-parking
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+    networks:
+      - parking-network
+  
+  mqtt_client:
+    image: pachec0luis/arqui2-parqueo:1.0.4
+    container_name: mqtt_client
+    depends_on:
+      - mosquitto
+      - mongodb
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_USERNAME=${MONGODB_USERNAME}
+      - MONGODB_PASSWORD=${MONGODB_PASSWORD}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_DB_NAME=${MONGO_DB_NAME}
+      - MONGO_DRIVER=${MONGO_DRIVER}
+      - MONGO_HOST=${MONGO_HOST}
+      - MQTT_PORT=${MQTT_PORT}
+      - MQTT_WBS=${MQTT_WBS}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - JWT_ALGORITHM=${JWT_ALGORITHM}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES}
+      - MQTT_BROKER=${MQTT_BROKER}
+    networks:
+      - parking-network
+    restart: unless-stopped
+
+networks:
+  parking-network:
+    driver: bridge
