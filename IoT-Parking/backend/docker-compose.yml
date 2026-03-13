@@ -49,6 +49,19 @@ services:
       - parking-network
     restart: unless-stopped
 
+  frontend:
+    image:  pachec0luis/arqui2-app:1.0.1
+    container_name: arqui2-app
+    depends_on:
+      - mqtt_client
+    ports:
+      - "80:80"
+    environment:
+      - MQTT_BROKER=${MQTT_BROKER}
+    networks:
+      - parking-network
+    restart: unless-stopped
+
 networks:
   parking-network:
     driver: bridge
